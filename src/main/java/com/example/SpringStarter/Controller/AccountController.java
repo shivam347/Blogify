@@ -31,5 +31,11 @@ public class AccountController {
         return "redirect:/home";
         
     }
+
+
+    @GetMapping("/login")
+    public String login(Model model){
+        return "login";
+    }
     
 }
