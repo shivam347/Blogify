@@ -20,10 +20,6 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/register")
-    public String register(Model model){
-        return "register";
-    }
 
     
 
