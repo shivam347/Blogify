@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
-// import org.apache.catalina.User; // Removed incorrect import
 import org.springframework.security.core.userdetails.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.SpringStarter.Models.Account;
 import com.example.SpringStarter.Repositories.AccountRepository;
-// Removed invalid import for org.springframework.security.core.userdetails package
+
 
 /**
  * Service class for managing Account entities.
@@ -41,8 +40,10 @@ public class AccountService implements UserDetailsService {
      * @return The saved Account entity.
      */
     public Account save(Account account) {
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        // If the account already exists, it will be updated; otherwise, a new account will be created.);
+        // Only encode if not already encoded (simple check for BCrypt)
+        if (!account.getPassword().startsWith("$2a$")) {
+            account.setPassword(passwordEncoder.encode(account.getPassword()));
+        }
         return accountRepository.save(account);
     }
 

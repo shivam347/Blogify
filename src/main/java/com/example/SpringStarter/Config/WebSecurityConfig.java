@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * WebSecurityConfig class is used to configure Spring Security for the
@@ -37,7 +38,7 @@ public class WebSecurityConfig {
 
 
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
@@ -63,8 +64,7 @@ public class WebSecurityConfig {
                 .logoutSuccessUrl("/logout?success=true")
                 .permitAll()
             )
-            .httpBasic()
-            .and()
+            .httpBasic(withDefaults()) // Use withDefaults() for httpBasic
             .csrf(csrf -> csrf.disable())
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
