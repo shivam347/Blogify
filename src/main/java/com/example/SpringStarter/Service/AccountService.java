@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.SpringStarter.Models.Account;
 import com.example.SpringStarter.Repositories.AccountRepository;
+import com.example.SpringStarter.Util.Constants.Roles;
 
 
 /**
@@ -41,9 +42,9 @@ public class AccountService implements UserDetailsService {
      */
     public Account save(Account account) {
         // Only encode if not already encoded (simple check for BCrypt)
-        if (!account.getPassword().startsWith("$2a$")) {
-            account.setPassword(passwordEncoder.encode(account.getPassword()));
-        }
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setRole(Roles.USER.getRole()); // Set default role for new accounts
+        
         return accountRepository.save(account);
     }
 
@@ -63,6 +64,7 @@ public class AccountService implements UserDetailsService {
 
         Account account = optionalAccount.get();
         List<GrantedAuthority> grantedAuthority = new ArrayList<>();
+        grantedAuthority.add(() -> account.getRole());      
         return new User(
             account.getEmail(),
             account.getPassword(),
