@@ -42,6 +42,9 @@ public class Account {
      */
     private String password;
 
+
+    private String role;
+
     /**
      * List of posts associated with this account.
      */
