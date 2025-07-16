@@ -72,7 +72,7 @@ public class WebSecurityConfig {
             // Configure logout handling
             .logout(logout -> logout
                 .logoutUrl("/logout")                      // URL to trigger logout
-                .logoutSuccessUrl("/logout?success=true")  // Redirect after successful logout
+                .logoutSuccessUrl("/home")  // Redirect after successful logout
                 .permitAll()                               // Allow all to access logout
             )
             // Enable HTTP Basic authentication (for APIs, etc.)
