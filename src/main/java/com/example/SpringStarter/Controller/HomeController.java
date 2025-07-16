@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.SpringStarter.Service.PostService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 /**
  * HomeController handles requests for the home page.
@@ -29,6 +31,12 @@ public class HomeController {
         model.addAttribute("posts", postService.getAll()); // Add all posts to the model
         return "home"; // Return the view template name
     }
+
+
+    @GetMapping("/editor")
+    public String editor(Model model) {
+        return "editor"; // Return the editor view template name
+    }   
 
 }
 
