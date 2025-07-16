@@ -6,6 +6,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.example.SpringStarter.Util.Constants.Privileges;
+import com.example.SpringStarter.Util.Constants.Roles;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -57,6 +61,10 @@ public class WebSecurityConfig {
             // Allow whitelisted URLs without authentication, require authentication for others
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(WHITELIST_URLS).permitAll()
+                .requestMatchers("/profile/**").authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN") // Only allow ADMIN role for /admin/** URLs
+                .requestMatchers("/editor/**").hasAnyRole("ADMIN", "EDITOR") // Allow ADMIN and EDITOR roles for /editor/** URLs
+                .requestMatchers("/admin/**").hasAuthority(Privileges.ACCES_ADMIN_PANEL.getAuthorityName())// Only allow ADMIN role for /admin/** URLs
                 .anyRequest().authenticated()
             )
             // Configure form-based login

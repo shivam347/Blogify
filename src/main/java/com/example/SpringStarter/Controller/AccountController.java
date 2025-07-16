@@ -54,5 +54,12 @@ public class AccountController {
     public String login(Model model){
         return "login"; // Return the login view
     }
+
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        // This method can be used to handle profile-related requests
+        return "profile"; // Return the profile view template name
+    }   
     
 }
