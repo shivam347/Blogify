@@ -42,8 +42,11 @@ public class AccountService implements UserDetailsService {
      */
     public Account save(Account account) {
         // Only encode if not already encoded (simple check for BCrypt)
+        
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account.setRole(Roles.USER.getRole()); // Set default role for new accounts
+        if(account.getRole() == null){
+        account.setRole(Roles.USER.getRole()); // Set default user role for not defined role accounts
+        }
         
         return accountRepository.save(account);
     }
@@ -63,6 +66,8 @@ public class AccountService implements UserDetailsService {
         }
 
         Account account = optionalAccount.get();
+        
+
         List<GrantedAuthority> grantedAuthority = new ArrayList<>();
         grantedAuthority.add(() -> account.getRole());      
         return new User(
