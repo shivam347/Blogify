@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.SpringStarter.Service.PostService;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 /**
@@ -33,10 +33,10 @@ public class HomeController {
     }
 
 
-    @GetMapping("/editor")
-    public String editor(Model model) {
-        return "editor"; // Return the editor view template name
-    }   
+    // @GetMapping("/editor")
+    // public String editor(Model model) {
+    //     return "editor"; // Return the editor view template name
+    // }   
 
 }
 

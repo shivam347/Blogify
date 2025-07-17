@@ -22,9 +22,10 @@
 
       <div class="posts" th:each="post : ${posts}">
 
-        <h3 th:text="${post.title}">Post Title</h3>
+        <h3><a th:href="@{'/posts/' + ${post.id}}" th:text="${post.title}">Post Title</a></h3>
+        <h5 th:text="'Author: ' + ${post.account.username} + ' | Created At:' + ${post.postedOn}"></h5>
         <p th:text="${post.body}">Post content goes here...</p>
-        <hr>
+        <hr color="grey" size="1">
           
 
       </div>
