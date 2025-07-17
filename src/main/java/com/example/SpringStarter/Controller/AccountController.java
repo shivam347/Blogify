@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.SpringStarter.Models.Account;
 import com.example.SpringStarter.Service.AccountService;
 
+
+
 /**
  * AccountController handles user registration and login page requests.
  */
@@ -60,6 +62,11 @@ public class AccountController {
     public String profile(Model model) {
         // This method can be used to handle profile-related requests
         return "profile"; // Return the profile view template name
-    }   
+    }
+
+    @GetMapping("/test")
+    public String test(Model model) {
+        return "test";
+    }
     
 }

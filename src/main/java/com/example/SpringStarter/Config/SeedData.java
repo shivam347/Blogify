@@ -57,21 +57,21 @@ public class SeedData implements CommandLineRunner {
 
         // Set properties for the first account
         account01.setUsername("vidhi");
-        account01.setPassword("vidhi123"); // Password will be encoded in AccountService
-        account01.setEmail("vidhi123@gmail.com");
+        account01.setPassword("editor123"); // Password will be encoded in AccountService
+        account01.setEmail("editor123@gmail.com");
         account01.setRole(Roles.EDITOR.getRole());
 
         // Set properties for the second account
         account02.setUsername("shivam");
-        account02.setPassword("shivm123"); // Password will be encoded in AccountService
-        account02.setEmail("shivam123@gmail.com");
+        account02.setPassword("admin123"); // Password will be encoded in AccountService
+        account02.setEmail("admin123@gmail.com");
         account02.setRole(Roles.ADMIN.getRole());
 
 
         // Set properties for the third account
         account03.setUsername("vaibhav");
-        account03.setPassword("vaibhav123"); // Password will be encoded in AccountService
-        account03.setEmail("vaibhav123@gmail.com");
+        account03.setPassword("user123"); // Password will be encoded in AccountService
+        account03.setEmail("user123@gmail.com");
 
         Set<Authority> authorities = new HashSet<>();
 
@@ -105,6 +105,13 @@ public class SeedData implements CommandLineRunner {
             post02.setBody("Post02 Body........");
             post02.setAccount(account02);
             postService.save(post02);
+
+
+            Post post03 = new Post();
+            post03.setTitle("Post03 title");
+            post03.setBody("Post03 Body........");
+            post03.setAccount(account03);
+            postService.save(post03);
         }
 		
 	}

@@ -5,30 +5,41 @@
 
 <body class="sub_page">
 
-  <div class="hero_area">
-    <div class="bg-box">
-      <img src="/images/hero-bg.jpg" alt="">
+    <div class="hero_area">
+        <div class="bg-box">
+            <img src="/images/hero-bg.jpg" alt="">
+        </div>
+        <!-- header section strats -->
+        <xml:header th:replace="Fragments/header :: header"></xml:header>
+
+        <!-- end header section -->
     </div>
-    <!-- header section strats -->
-    <xml:header th:replace="Fragments/header :: header"></xml:header>
 
-    <!-- end header section -->
-  </div>
+    <!-- about section -->
 
-  <!-- about section -->
+    <section class="about_section layout_padding">
+        <div class="container  ">
 
-  <section class="about_section layout_padding">
-    <div class="container  ">
+            <div class="post">
+                <h3><a th:text="${post.title}">Post Title</a></h3>
+                <h5 th:text="'Author: ' + ${post.account.username} + ' | Created At:' + ${post.postedOn}"></h5>
+                <p th:text="${post.body}">Post content goes here...</p>
+                <hr color="grey" size="1">
 
-        post Dashboard.............
+                <!-- check the current user is author or not  -->
+                <div  sec:authorize="isAuthenticated"   th:if="${canEditAll or isAuthor}">
+                    <a th:href="@{/edit_post/{id}(id=${post.id})}" class="btn btn-primary">Edit</a>
+                </div>
+
+            </div>
 
 
 
 
-    </div>
-  </section>
+        </div>
+    </section>
 
-  <xml:footer th:replace="Fragments/footer :: footer"></xml:footer>
+    <xml:footer th:replace="Fragments/footer :: footer"></xml:footer>
 
 
 
