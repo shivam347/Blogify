@@ -27,18 +27,18 @@
               </li>
               <li sec:authorize="isAuthenticated()" class="nav-item">
                 <a class="nav-link" href="/profile">Profile</a>
-              </li>
-               <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" href="/logout">logout</a>
-              </li>
+              </li>     
               <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                 <a class="nav-link" href="/admin">admin</a>
               </li>
-               <li sec:authorize="hasRole('ACCESS_ADMIN_PANEL')" class="nav-item">
+               <!-- <li sec:authorize="hasRole('ACCESS_ADMIN_PANEL')" class="nav-item">
                 <a class="nav-link" href="/admin">admin</a>
-              </li>
-               <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EDITOR')" class="nav-item">
+              </li> -->
+               <!-- <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_EDITOR')" class="nav-item">
                 <a class="nav-link" href="/editor">Editor</a>
+              </li> -->
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link" href="/logout">logout</a>
               </li>
               
 
