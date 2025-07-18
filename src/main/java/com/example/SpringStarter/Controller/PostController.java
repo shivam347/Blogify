@@ -4,20 +4,30 @@ import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.example.SpringStarter.Models.Account;
 import com.example.SpringStarter.Models.Post;
+import com.example.SpringStarter.Service.AccountService;
 import com.example.SpringStarter.Service.PostService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping("/posts/{id}")
     public String getPost(@PathVariable Long id, Model model, Principal principal, Authentication authentication) {
@@ -62,10 +72,46 @@ public class PostController {
 
 
     @GetMapping("/add_post")
-    public String addPost(Model model) {
-        // Return the view template name for adding a post
-        // This method can be used to display a form for creating a new post
-        return "post_views/add_post"; // Return the view template name for adding a post
+    @PreAuthorize("isAuthenticated()") // Ensure the user is authenticated before accessing this method
+    public String addPost(Model model, Principal principal) {
+        String authUser =  "email"; // Default email if principal is null
+        if(principal != null) {
+            authUser = principal.getName(); // Get the email from the Principal object
+        }
+        
+        Optional<Account> optionalaccount = accountService.getByEmail(authUser);
+        if(optionalaccount.isPresent()){
+            Post post = new Post();
+            post.setAccount(optionalaccount.get()); // Set the account for the post
+            model.addAttribute("post", post); // Add the post to the model for form binding 
+            return "post_views/add_post"; // Return the view template name for adding a post
+        }else{
+            return "redirect:/login"; // Redirect to login if the account is not found
+        }
+        
     }
+
+// Method to handle the form submission for adding a new post
+    // It checks if the authenticated user is the owner of the account associated with the post 
+
+    @PostMapping("/post/add")
+    @PreAuthorize("isAuthenticated()")
+    public String addPostHandler(@ModelAttribute Post post, Principal principal){
+        String authUser = "email"; // Default email if principal is null
+
+        if(principal != null){
+            authUser = principal.getName(); // Get the email from the Principal object
+        }
+
+        if(post.getAccount().getEmail().compareToIgnoreCase(authUser) < 0){
+            return "redirect:/login?error"; // Redirect to login if the account email does not match
+        }
+
+        postService.save(post); // Save the post using PostService
+        return "redirect:/posts/" + post.getId(); // Redirect to the newly created post
+        
+    }
+
    
+
 }
