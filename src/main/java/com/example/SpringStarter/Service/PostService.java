@@ -38,6 +38,8 @@ public class PostService {
             post.setPostedOn(LocalDateTime.now());
         }
 
+        post.setUpdatedOn(LocalDateTime.now());
+
         return postRepository.save(post);
     }
     
