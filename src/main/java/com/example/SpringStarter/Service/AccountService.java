@@ -17,6 +17,8 @@ import com.example.SpringStarter.Models.Account;
 import com.example.SpringStarter.Models.Authority;
 import com.example.SpringStarter.Repositories.AccountRepository;
 import com.example.SpringStarter.Util.Constants.Roles;
+import org.springframework.beans.factory.annotation.Value; 
+
 
 
 /**
@@ -31,10 +33,14 @@ public class AccountService implements UserDetailsService {
      * Injected AccountRepository for database operations.
      */
     @Autowired
-    private AccountRepository accountRepository;
+    public AccountRepository accountRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+     @Value("${photo.prefix}")
+     private String photoPrefix;
 
     /**
      * Saves a new or existing Account entity to the database.
@@ -42,11 +48,18 @@ public class AccountService implements UserDetailsService {
      * @return The saved Account entity.
      */
     public Account save(Account account) {
+
+       
         // Only encode if not already encoded (simple check for BCrypt)
         
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         if(account.getRole() == null){
         account.setRole(Roles.USER.getRole()); // Set default user role for not defined role accounts
+        }
+
+        if(account.getPhoto() == null){
+        String path = photoPrefix.replace("**", "static/images/photo.png");
+        account.setPhoto(path);// Set default user role for not defined role accounts
         }
         
         return accountRepository.save(account);
