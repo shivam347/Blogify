@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +17,9 @@ import com.example.SpringStarter.Models.Account;
 import com.example.SpringStarter.Models.Post;
 import com.example.SpringStarter.Service.AccountService;
 import com.example.SpringStarter.Service.PostService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -95,7 +99,13 @@ public class PostController {
 
     @PostMapping("/post/add")
     @PreAuthorize("isAuthenticated()")
-    public String addPostHandler(@ModelAttribute Post post, Principal principal) {
+    public String addPostHandler(@Valid @ModelAttribute Post post, BindingResult bindingResult ,Principal principal) {
+        // Validate the post object and check for errors
+        // If there are validation errors, return to the add post page with error messages
+        if (bindingResult.hasErrors()) {
+            return "post_views/add_post"; // If there are validation errors, return to the add post page
+        }
+
         String authUser = "email"; // Default email if principal is null
 
         if (principal != null) {
@@ -127,7 +137,12 @@ public class PostController {
 
     @PostMapping("/post/{id}/edit")
     @PreAuthorize("isAuthenticated()")
-    public String updatePostHandler(@PathVariable long id, @ModelAttribute Post post) {
+    public String updatePostHandler(@PathVariable long id, @Valid @ModelAttribute Post post, BindingResult bindingResult) {
+        // Validate the post object and check for errors
+        // If there are validation errors, return to the edit post page with error messages
+        if (bindingResult.hasErrors()) {
+            return "post_views/edit_post"; // If there are validation errors, return to the edit post page
+        }
 
         Optional<Post> existingPost = postService.getById(id); // Fetch the existing post by ID
         if (existingPost.isPresent()) {
