@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,9 +24,11 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     private String title;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "Body is required")
     private String body;
 
     private LocalDateTime postedOn;
