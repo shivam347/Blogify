@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="Fragments/head :: head"></head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+    <div class="bg-box">
+      <img src="images/hero-bg.jpg" alt="">
+    </div>
+    <!-- header section strats -->
+    <xml:header th:replace="Fragments/header :: header"></xml:header>
+
+    <!-- end header section -->
+  </div>
+
+  <!-- about section -->
+
+  <section class="book_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Profile
+        </h2>
+        <img th:src="@{${account.photo}(v=${#dates.createNow().time})}" class="rounded-circle"
+          style="width: 150px; float: left; padding: 10px 10px 10px 10px;" alt="Avatar" />
+          
+        <p th:text="${error}" th:if="${error ne null}" class="alert alert-danger"></p>
+        <form method="post" th:action="@{/update_photo}" enctype="multipart/form-data">
+          <div class="form-group">
+            <input type="file" name="file" class="form-control-file" />
+          </div>
+          <button type="submit" class="btn btn-primary">Update photo</button>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form_container">
+            <form action="#" th:action="@{/register}" th:object="${account}" method="post">
+              <div>
+                <input type="hidden" id="id" name="id" th:field="*{id}" />
+                <input type="text" id="photo" th:field="*{photo}" class="form-control" placeholder="Photo URL" />
+                <p th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" class="alert alert-danger" role="alert">
+                  Invalid photo URL</p>
+              </div>
+              <div>
+                <input id="username" type="text" th:field="*{username}" class="form-control" required
+                  placeholder="Username" />
+              </div>
+              <div>
+                <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Email" />
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">
+                  Invalid email</p>
+              </div>
+
+              <div>
+                <input type="date" id="date_of_birth" th:field="*{date_of_birth}" required class="form-control"
+                  placeholder="Date of Birth" />
+              </div>
+
+              <div>
+                <select id="gender" th:field="*{gender}" class="form-control">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+
+              </div>
+
+              <div>
+                <input type="password" id="password" th:field="*{password}" required class="form-control"
+                  placeholder="Password" />
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert">
+                  Invalid email</p>
+              </div>
+
+              <div class="btn_box">
+                <button type="submit">
+                  Update Profile
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <xml:footer th:replace="Fragments/footer :: footer"></xml:footer>
+
+
+
+</body>
+
+</html>
