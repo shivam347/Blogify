@@ -49,15 +49,7 @@ public class WebSecurityConfig {
 
     
 
-    /**
-     * Bean for password encoding using BCrypt.
-     * This is used to hash passwords before storing them in the database
-     * and to verify passwords during authentication.
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+    
 
     /**
      * Configures the security filter chain for HTTP requests.
@@ -97,8 +89,7 @@ public class WebSecurityConfig {
                 .key("uniqueAndSecret")
                 .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
                 .userDetailsService(accountService)
-                .rememberMeParameter("remember-me")  // optional default is remember-me
-                .rememberMeCookieName("remember-me")  // optional 
+                 
         
             )
             
