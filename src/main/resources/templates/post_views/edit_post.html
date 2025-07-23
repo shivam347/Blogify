@@ -23,16 +23,23 @@
                 <div class="col-md-6">
                     <div class="form_container">
                         <h3>Edit Post</h3>
-                        <form action="#" th:action="@{'/post/{id}/edit' (id=${post.id})}" method="post" th:object="${post}">
+                        <form action="#" th:action="@{'/post/{id}/edit' (id=${post.id})}" method="post"
+                            th:object="${post}">
                             <div class="form-group">
                                 <input type="hidden" name="account" id="account" th:field="*{account}" />
                                 <input type="text" name="title" id="title" th:field="*{title}" class="form-control"
                                     placeholder="title" />
+                                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="alert alert-danger"
+                                    role="alert">
+                                    title is missing</p>
                             </div>
 
                             <div class="form-group">
                                 <textarea name="body" id="editor" th:field="*{body}" class="form-control"
                                     placeholder="Body">Body</textarea>
+                                <p th:if="${#fields.hasErrors('body')}" th:errors="*{body}" class="alert alert-danger"
+                                    role="alert">
+                                    Body is missing</p>
                             </div>
 
                             <button class="btn btn-primary" type="submit">
