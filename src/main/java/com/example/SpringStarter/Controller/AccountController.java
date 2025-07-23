@@ -1,20 +1,34 @@
 package com.example.SpringStarter.Controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.SpringStarter.Models.Account;
 
 import com.example.SpringStarter.Service.AccountService;
+import com.example.SpringStarter.Util.AppUtil;
 
 import jakarta.validation.Valid;
 
@@ -27,6 +41,9 @@ public class AccountController {
     // Inject AccountService to handle account-related operations
     @Autowired
     private AccountService accountService;
+
+    @Value("${photo.prefix}")
+    private String photoPrefix;
 
     /**
      * Handles GET requests for the registration page.
@@ -87,13 +104,111 @@ public class AccountController {
             model.addAttribute("account", account);
             model.addAttribute("photo", account.getPhoto());
 
-            return "profile";
+            return "account_views/profile";
         } else {
 
             return "redirect:/?error";
 
         }
 
+    }
+
+    @PostMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public String post_profile(@Valid @ModelAttribute Account account, BindingResult bindingResult,
+            Principal principal) {
+
+        if (bindingResult.hasErrors()) {
+            return "account_views/profile";
+
+        }
+
+        String authUser = "email";
+        if (principal != null) {
+            authUser = principal.getName();
+        }
+
+        Optional<Account> optionalAccount = accountService.getByEmail(authUser);
+
+        if (optionalAccount.isPresent()) {
+            Account account_by_id = accountService.getById(account.getId()).get();
+            account_by_id.setUsername(account.getUsername());
+            account_by_id.setDate_of_birth(account.getDate_of_birth());
+            account_by_id.setGender(account.getGender());
+            account_by_id.setEmail(account.getEmail());
+            account_by_id.setPassword(account.getPassword());
+
+            accountService.save(account_by_id);
+
+            SecurityContextHolder.clearContext();
+
+            return "redirect:/home";
+        }
+
+        return "redirect:/?error";
+
+    }
+
+    @PostMapping("/update_photo")
+    @PreAuthorize("isAuthenticated()")
+    public String update_photo(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+            Principal principal) {
+
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "No file upload");
+            return "redirect:/profile";
+        } else {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+            try {
+
+                String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+                String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String randomFileName = UUID.randomUUID().toString() + extension;
+                String relativePhotoPath = "/uploads/" + randomFileName;
+
+                String absolute_fileLocation = AppUtil.get_upload_path(randomFileName);
+
+                Path path = Paths.get(absolute_fileLocation);
+
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                redirectAttributes.addFlashAttribute("message", "photo uploaded successfully");
+
+                // get logged in user account
+                String authUser = "email";
+                if (principal != null) {
+                    authUser = principal.getName();
+                }
+
+                Optional<Account> optionalAccount = accountService.getByEmail(authUser);
+
+                if (optionalAccount.isPresent()) {
+                    Account account = optionalAccount.get();
+
+                    account.setPhoto(relativePhotoPath);
+                    accountService.save(account);
+
+                }
+
+                redirectAttributes.addFlashAttribute("message", "Photo uploaded successfully");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                redirectAttributes.addFlashAttribute("error", "Photo upload failed");
+             
+            }
+
+            return "redirect:/profile";
+
+        }
+
+    }
+
+
+    @GetMapping("/forgot_password")
+    public String forgot_password(Model model){
+        return "account_views/forgot_password";
     }
 
 }
