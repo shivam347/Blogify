@@ -6,14 +6,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import com.example.SpringStarter.Service.AccountService;
 import com.example.SpringStarter.Util.Constants.Privileges;
-import com.example.SpringStarter.Util.Constants.Roles;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import static org.springframework.security.config.Customizer.withDefaults;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * WebSecurityConfig class is used to configure Spring Security for the
@@ -27,6 +29,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
 
+    @Autowired
+    private AccountService accountService;
+
+   
+
     // List of URLs that are whitelisted (accessible without authentication)
     private static final String[] WHITELIST_URLS = {
             "/home",           // Home page
@@ -39,6 +46,8 @@ public class WebSecurityConfig {
             "/favicon.ico",    // Favicon
             "/fonts/**"        // Static font resources
     };
+
+    
 
     /**
      * Bean for password encoding using BCrypt.
@@ -83,6 +92,16 @@ public class WebSecurityConfig {
                 .logoutSuccessUrl("/home")  // Redirect after successful logout
                 .permitAll()                               // Allow all to access logout
             )
+
+            .rememberMe(remember -> remember
+                .key("uniqueAndSecret")
+                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
+                .userDetailsService(accountService)
+                .rememberMeParameter("remember-me")  // optional default is remember-me
+                .rememberMeCookieName("remember-me")  // optional 
+        
+            )
+            
             // Enable HTTP Basic authentication (for APIs, etc.)
             .httpBasic(withDefaults())
             // Disable CSRF protection (useful for H2 console, but not recommended for production)
