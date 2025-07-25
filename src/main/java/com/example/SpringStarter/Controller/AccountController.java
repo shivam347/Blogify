@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +45,10 @@ public class AccountController {
 
     @Value("${photo.prefix}")
     private String photoPrefix;
+
+
+    @Value("${password.token.reset.timeout.minutes}")
+    private int password_token_timeout;
 
     /**
      * Handles GET requests for the registration page.
@@ -184,8 +189,8 @@ public class AccountController {
                 Optional<Account> optionalAccount = accountService.getByEmail(authUser);
 
                 if (optionalAccount.isPresent()) {
-                    Account account = optionalAccount.get();
 
+                    Account account = optionalAccount.get();
                     account.setPhoto(relativePhotoPath);
                     accountService.save(account);
 
@@ -206,9 +211,37 @@ public class AccountController {
     }
 
 
-    @GetMapping("/forgot_password")
+    @GetMapping("/forgot-password")
     public String forgot_password(Model model){
         return "account_views/forgot_password";
+    }
+
+
+    @PostMapping("/reset-password")
+    public String reset_password(@RequestParam("email") String email, RedirectAttributes attributes, Model model){
+        Optional<Account> optionalAccount = accountService.getByEmail(email);
+
+        if(optionalAccount.isPresent()){
+            Account account = accountService.getById(optionalAccount.get().getId()).get() ;
+
+            String reset_token = UUID.randomUUID().toString();
+            account.setPassword_reset_token(reset_token);
+            account.setPassword_reset_token_expiry(LocalDateTime.now().plusMinutes(password_token_timeout));
+
+            accountService.save(account);
+
+
+            attributes.addFlashAttribute("message", "password reset email sent");
+            return "redirect:/login";
+        }else{
+
+            attributes.addFlashAttribute("error", "no user find with this email");
+            return "redirect:/forgot-password";
+
+        }
+
+        
+        
     }
 
 }
