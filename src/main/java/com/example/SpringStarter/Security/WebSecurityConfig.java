@@ -39,6 +39,8 @@ public class WebSecurityConfig {
             "/home",           // Home page
             "/register",       // Registration page
             "/login",          // Login page
+            "/forgot-password",
+             "/reset-password/**",
             "/db-console/**",  // H2 database console
             "/css/**",         // Static CSS resources
             "/js/**",          // Static JS resources
