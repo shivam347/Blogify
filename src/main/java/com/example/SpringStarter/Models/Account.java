@@ -1,6 +1,7 @@
 package com.example.SpringStarter.Models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 /**
  * Represents a user account in the system.
@@ -20,8 +21,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -71,6 +70,10 @@ public class Account {
 
 
     private String photo;
+
+    private String password_reset_token;
+
+    private LocalDateTime password_reset_token_expiry;
 
 
     /**
