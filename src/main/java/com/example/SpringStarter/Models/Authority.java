@@ -19,7 +19,7 @@ public class Authority {
 
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.SEQUENCE)
     private Long id;
 
     private String authorityName;
