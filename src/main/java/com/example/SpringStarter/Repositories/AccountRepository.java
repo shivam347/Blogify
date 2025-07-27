@@ -19,6 +19,10 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
      */
     Optional<Account> findOneByEmailIgnoreCase(String email);
 
+    Optional<Account> findByPasswordResetToken(String token);
+
+    Optional<Account> findById(long id);
+
 
 } 
     
