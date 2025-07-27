@@ -12,7 +12,7 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -71,9 +71,10 @@ public class Account {
 
     private String photo;
 
-    private String password_reset_token;
+    @Column(name = "token")
+    private String passwordResetToken;
 
-    private LocalDateTime password_reset_token_expiry;
+    private LocalDateTime passwordResetTokenExpiry;
 
 
     /**
