@@ -67,7 +67,7 @@ public class SeedData implements CommandLineRunner {
         // Set properties for the second account
         account02.setUsername("shivam");
         account02.setPassword("admin123"); // Password will be encoded in AccountService
-        account02.setEmail("admin123@gmail.com");
+        account02.setEmail("shivamfeb77@gmail.com");
         account02.setRole(Roles.ADMIN.getRole());
         account02.setGender("Male");
         account02.setDate_of_birth(LocalDate.parse("1995-06-01"));
