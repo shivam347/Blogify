@@ -31,9 +31,9 @@ public class Post {
     @NotBlank(message = "Body is required")
     private String body;
 
-    private LocalDateTime postedOn;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updatedOn;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, referencedColumnName = "id")
