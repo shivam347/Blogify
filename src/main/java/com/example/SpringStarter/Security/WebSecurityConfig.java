@@ -3,8 +3,7 @@ package com.example.SpringStarter.Security;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 // Import Spring Security configuration annotations
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
 import com.example.SpringStarter.Service.AccountService;
 import com.example.SpringStarter.Util.Constants.Privileges;

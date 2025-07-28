@@ -10,12 +10,39 @@
       <img src="images/hero-bg.jpg" alt="">
     </div>
     <!-- header section strats -->
-    <xml:header th:replace="Fragments/header :: header"></xml:header>
+    <header th:replace="Fragments/header :: header"></header>
 
     <!-- end header section -->
   </div>
 
   <!-- about section -->
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Spring Blog</a>
+
+    <div class="collapse navbar-collapse">
+      <form class="form-inline my-2 my-lg-0" method="get" action="/home">
+        <!-- Sort By -->
+        <label class="mr-2">Sort By:</label>
+        <select class="form-control mr-2" name="sort_by">
+          <option value="createdAt" th:selected="${sort_by == 'createdAt'}">Created Date</option>
+          <option value="updatedAt" th:selected="${sort_by == 'updatedAt'}">Updated Date</option>
+        </select>
+
+        <!-- Per Page -->
+        <label class="mr-2">Per Page:</label>
+        <select class="form-control mr-2" name="per_page">
+          <option value="2" th:selected="${per_page == '2'}">2</option>
+          <option value="5" th:selected="${per_page == '5'}">5</option>
+          <option value="10" th:selected="${per_page == '10'}">10</option>
+          <option value="15" th:selected="${per_page == '15'}">15</option>
+        </select>
+
+        <!-- Submit -->
+        <button class="btn btn-primary" type="submit">Apply Filter</button>
+      </form>
+    </div>
+  </nav>
 
   <section class="about_section layout_padding">
     <div class="container  ">
@@ -23,9 +50,8 @@
       <div class="posts" th:each="post : ${posts}">
 
         <h3><a th:href="@{'/posts/' + ${post.id}}" th:text="${post.title}">Post Title</a></h3>
-        <h5
-          th:text="'Author: ' + ${post.account.username} + ' | Created At : ' + ${#temporals.format(post.postedOn, 'dd-MM-yyyy HH:mm')} +
-          ' | Updated At : ' + ${#temporals.format(post.updatedOn, 'dd-MM-yyyy HH:mm')}">
+        <h5 th:text="'Author: ' + ${post.account.username} + ' | Created At : ' + ${#temporals.format(post.createdAt, 'dd-MM-yyyy HH:mm')} +
+          ' | Updated At : ' + ${#temporals.format(post.updatedAt, 'dd-MM-yyyy HH:mm')}">
         </h5>
         <p th:utext="${post.body}">Post content goes here...</p>
         <hr color="grey" size="1">
@@ -35,9 +61,23 @@
 
 
     </div>
+
+      <nav th:if="${links ne null}" aria-label="........">
+      <ul class="pagination  justify-content-center">
+        <th:block th:each="link : ${links}">
+          <li class="page-item">
+            <th:block th:utext="${link}">link</th:block>
+          </li>
+        </th:block>
+      </ul>
+
+    </nav>
+
+   
+
   </section>
 
-  <xml:footer th:replace="Fragments/footer :: footer"></xml:footer>
+  <footer th:replace="Fragments/footer :: footer"></xml:footer>
 
 
 
