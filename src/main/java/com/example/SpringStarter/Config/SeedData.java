@@ -56,6 +56,11 @@ public class SeedData implements CommandLineRunner {
         Account account02 = new Account();
         Account account03 = new Account();
 
+        //duplicate
+         Account account04 = new Account();
+        Account account05 = new Account();
+        Account account06 = new Account();
+
         // Set properties for the first account
         account01.setUsername("vidhi");
         account01.setPassword("editor123"); // Password will be encoded in AccountService
@@ -63,6 +68,14 @@ public class SeedData implements CommandLineRunner {
         account01.setRole(Roles.EDITOR.getRole());
         account01.setGender("Female");
         account01.setDate_of_birth(LocalDate.parse("1990-03-01")); // Set date of birth
+
+        account04.setUsername("abhishek");
+        account04.setPassword("editor123"); // Password will be encoded in AccountService
+        account04.setEmail("abhishek123@gmail.com");
+        account04.setRole(Roles.EDITOR.getRole());
+        account04.setGender("Male");
+        account04.setDate_of_birth(LocalDate.parse("1990-03-01")); // Set date of birth
+
 
         // Set properties for the second account
         account02.setUsername("shivam");
@@ -72,6 +85,13 @@ public class SeedData implements CommandLineRunner {
         account02.setGender("Male");
         account02.setDate_of_birth(LocalDate.parse("1995-06-01"));
 
+        account05.setUsername("Ajeet");
+        account05.setPassword("admin123"); // Password will be encoded in AccountService
+        account05.setEmail("ajeet123@gmail.com");
+        account05.setRole(Roles.ADMIN.getRole());
+        account05.setGender("Male");
+        account05.setDate_of_birth(LocalDate.parse("1995-06-01"));
+
 
         // Set properties for the third account
         account03.setUsername("vaibhav");
@@ -79,6 +99,12 @@ public class SeedData implements CommandLineRunner {
         account03.setEmail("user123@gmail.com");
         account03.setGender("Male");
         account03.setDate_of_birth(LocalDate.parse("2000-05-01"));
+
+        account06.setUsername("vibhu");
+        account06.setPassword("user123"); // Password will be encoded in AccountService
+        account06.setEmail("vibhu123@gmail.com");
+        account06.setGender("Male");
+        account06.setDate_of_birth(LocalDate.parse("2000-05-01"));
 
         Set<Authority> authorities = new HashSet<>();
 
@@ -93,9 +119,12 @@ public class SeedData implements CommandLineRunner {
         accountService.save(account01);
         accountService.save(account02);
         accountService.save(account03);
+        accountService.save(account04);
+        accountService.save(account05);
+        accountService.save(account06);
 
         // Retrieve all posts from the database
-        List<Post> posts = postService.getAll();
+        List<Post> posts = postService.findAll();
 
         // If there are no posts, create and save two sample posts
         if(posts.size() == 0){
@@ -139,6 +168,46 @@ public class SeedData implements CommandLineRunner {
             post01.setAccount(account01);
             postService.save(post01);
 
+
+            Post post04 = new Post();
+            post04.setTitle("post04 title");
+            post04.setBody("Building REST services with Spring\r\n" + //
+                                "REST has quickly become the de facto standard for building web services on the web because REST services are easy to build and easy to consume.\r\n" + //
+                                "\r\n" + //
+                                "A much larger discussion can be had about how REST fits in the world of microservices. However, for this tutorial, we look only at building RESTful services.\r\n" + //
+                                "\r\n" + //
+                                "Why REST? REST embraces the precepts of the web, including its architecture, benefits, and everything else. This is no surprise, given that its author (Roy Fielding) was involved in probably a dozen specs which govern how the web operates.\r\n" + //
+                                "\r\n" + //
+                                "What benefits? The web and its core protocol, HTTP, provide a stack of features:\r\n" + //
+                                "\r\n" + //
+                                "Suitable actions (GET, POST, PUT, DELETE, and others)\r\n" + //
+                                "\r\n" + //
+                                "Caching\r\n" + //
+                                "\r\n" + //
+                                "Redirection and forwarding\r\n" + //
+                                "\r\n" + //
+                                "Security (encryption and authentication)\r\n" + //
+                                "\r\n" + //
+                                "These are all critical factors when building resilient services. However, that is not all. The web is built out of lots of tiny specs. This architecture lets it easily evolve without getting bogged down in \"standards wars\".\r\n" + //
+                                "\r\n" + //
+                                "Developers can draw upon third-party toolkits that implement these diverse specs and instantly have both client and server technology at their fingertips.\r\n" + //
+                                "\r\n" + //
+                                "By building on top of HTTP, REST APIs provide the means to build:\r\n" + //
+                                "\r\n" + //
+                                "Backwards compatible APIs\r\n" + //
+                                "\r\n" + //
+                                "Evolvable APIs\r\n" + //
+                                "\r\n" + //
+                                "Scaleable services\r\n" + //
+                                "\r\n" + //
+                                "Securable services\r\n" + //
+                                "\r\n" + //
+                                "A spectrum of stateless to stateful services\r\n" + //
+                                "\r\n" + //
+                                "Note that REST, however ubiquitous, is not a standard per se but an approach, a style, a set of constraints on your architecture that can help you build web-scale systems. This tutorial uses the Spring portfolio to build a RESTful service while takin advantage of the stackless features of REST.");
+            post04.setAccount(account01);
+            postService.save(post04);
+
             // Create second post and associate with account02
             Post post02 = new Post();
             post02.setTitle("Post02 title");
@@ -146,12 +215,92 @@ public class SeedData implements CommandLineRunner {
             post02.setAccount(account02);
             postService.save(post02);
 
+            Post post05 = new Post();
+            post05.setTitle("post05 title");
+            post05.setBody("Building REST services with Spring\r\n" + //
+                                "REST has quickly become the de facto standard for building web services on the web because REST services are easy to build and easy to consume.\r\n" + //
+                                "\r\n" + //
+                                "A much larger discussion can be had about how REST fits in the world of microservices. However, for this tutorial, we look only at building RESTful services.\r\n" + //
+                                "\r\n" + //
+                                "Why REST? REST embraces the precepts of the web, including its architecture, benefits, and everything else. This is no surprise, given that its author (Roy Fielding) was involved in probably a dozen specs which govern how the web operates.\r\n" + //
+                                "\r\n" + //
+                                "What benefits? The web and its core protocol, HTTP, provide a stack of features:\r\n" + //
+                                "\r\n" + //
+                                "Suitable actions (GET, POST, PUT, DELETE, and others)\r\n" + //
+                                "\r\n" + //
+                                "Caching\r\n" + //
+                                "\r\n" + //
+                                "Redirection and forwarding\r\n" + //
+                                "\r\n" + //
+                                "Security (encryption and authentication)\r\n" + //
+                                "\r\n" + //
+                                "These are all critical factors when building resilient services. However, that is not all. The web is built out of lots of tiny specs. This architecture lets it easily evolve without getting bogged down in \"standards wars\".\r\n" + //
+                                "\r\n" + //
+                                "Developers can draw upon third-party toolkits that implement these diverse specs and instantly have both client and server technology at their fingertips.\r\n" + //
+                                "\r\n" + //
+                                "By building on top of HTTP, REST APIs provide the means to build:\r\n" + //
+                                "\r\n" + //
+                                "Backwards compatible APIs\r\n" + //
+                                "\r\n" + //
+                                "Evolvable APIs\r\n" + //
+                                "\r\n" + //
+                                "Scaleable services\r\n" + //
+                                "\r\n" + //
+                                "Securable services\r\n" + //
+                                "\r\n" + //
+                                "A spectrum of stateless to stateful services\r\n" + //
+                                "\r\n" + //
+                                "Note that REST, however ubiquitous, is not a standard per se but an approach, a style, a set of constraints on your architecture that can help you build web-scale systems. This tutorial uses the Spring portfolio to build a RESTful service while takin advantage of the stackless features of REST.");
+            post05.setAccount(account01);
+            postService.save(post05);
+
+
+
 
             Post post03 = new Post();
             post03.setTitle("Post03 title");
             post03.setBody("Post03 Body........");
             post03.setAccount(account03);
             postService.save(post03);
+
+            Post post06 = new Post();
+            post06.setTitle("post06 title");
+            post06.setBody("Building REST services with Spring\r\n" + //
+                                "REST has quickly become the de facto standard for building web services on the web because REST services are easy to build and easy to consume.\r\n" + //
+                                "\r\n" + //
+                                "A much larger discussion can be had about how REST fits in the world of microservices. However, for this tutorial, we look only at building RESTful services.\r\n" + //
+                                "\r\n" + //
+                                "Why REST? REST embraces the precepts of the web, including its architecture, benefits, and everything else. This is no surprise, given that its author (Roy Fielding) was involved in probably a dozen specs which govern how the web operates.\r\n" + //
+                                "\r\n" + //
+                                "What benefits? The web and its core protocol, HTTP, provide a stack of features:\r\n" + //
+                                "\r\n" + //
+                                "Suitable actions (GET, POST, PUT, DELETE, and others)\r\n" + //
+                                "\r\n" + //
+                                "Caching\r\n" + //
+                                "\r\n" + //
+                                "Redirection and forwarding\r\n" + //
+                                "\r\n" + //
+                                "Security (encryption and authentication)\r\n" + //
+                                "\r\n" + //
+                                "These are all critical factors when building resilient services. However, that is not all. The web is built out of lots of tiny specs. This architecture lets it easily evolve without getting bogged down in \"standards wars\".\r\n" + //
+                                "\r\n" + //
+                                "Developers can draw upon third-party toolkits that implement these diverse specs and instantly have both client and server technology at their fingertips.\r\n" + //
+                                "\r\n" + //
+                                "By building on top of HTTP, REST APIs provide the means to build:\r\n" + //
+                                "\r\n" + //
+                                "Backwards compatible APIs\r\n" + //
+                                "\r\n" + //
+                                "Evolvable APIs\r\n" + //
+                                "\r\n" + //
+                                "Scaleable services\r\n" + //
+                                "\r\n" + //
+                                "Securable services\r\n" + //
+                                "\r\n" + //
+                                "A spectrum of stateless to stateful services\r\n" + //
+                                "\r\n" + //
+                                "Note that REST, however ubiquitous, is not a standard per se but an approach, a style, a set of constraints on your architecture that can help you build web-scale systems. This tutorial uses the Spring portfolio to build a RESTful service while takin advantage of the stackless features of REST.");
+            post06.setAccount(account06);
+            postService.save(post06);
         }
 		
 	}
