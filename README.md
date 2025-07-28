@@ -112,19 +112,19 @@ Visit http://localhost:8080/home
 
 
 📌 Technologies Used
-Java 17
+🟦 Java 17 – Modern language features and performance for backend development
 
-Spring Boot 3.5.3
+🚀 Spring Boot 3.5.3 – Rapid development with auto-configuration and embedded servers
 
-Spring Security
+🔐 Spring Security – Secure login, role-based access (ADMIN, EDITOR)
 
-Spring Data JPA
+🗃️ Spring Data JPA – Simplified database access with repository abstractions
 
-Thymeleaf
+🖼️ Thymeleaf – Dynamic server-side HTML rendering with Spring MVC integration
 
-H2 Database
+🗄️ H2 Database – In-memory SQL database with a built-in web console for testing
 
-Maven
+⚙️ Maven – Dependency management and project build tool
 
 
 👨‍💻 Author
